@@ -1,0 +1,21 @@
+<div class="contenedor">
+    <div class= "caja_header">
+        <label for="titulo">TOPDECKER</label>
+    </div>
+    <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+        <div class= "caja_display1">
+            <label for="canticartas">CANTIDAD DE CARTAS</label>
+            <input type="text" id="cartas" name="cartas" Ngmodel>
+        </div>
+        <div class= "caja_display2">
+            <label for="canticomodines">CANTIDAD DE COMODINES</label>
+            <input type="text" id="comodines" name="comodines" Ngmodel>
+        </div>
+        <div class= "boton">
+            <button type="submit">Submitt</button>
+        </div>
+    </form>
+    <div class= "resultado">
+        <h2>Su carta fue robada un % de las veces en </h2>
+    </div>
+</div>
