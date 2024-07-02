@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { SimTopdeckService } from '../../sim-topdeck.service';
 
 @Component({
-  selector: 'app-front',
+  selector: 'app-hs',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './front.component.html',
-  styleUrl: './front.component.css'
+  templateUrl: './hs.component.html',
+  styleUrl: './hs.component.css'
 })
-export class FrontComponent implements OnInit {
+export class HSComponent implements OnInit {
   valor: number | null = null;
   form!: FormGroup;
   mensajeVisible: boolean = false;

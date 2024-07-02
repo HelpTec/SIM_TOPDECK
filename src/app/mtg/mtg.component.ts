@@ -3,16 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SimTopdeckService } from '../../sim-topdeck.service';
+import { SimTopdeckService } from '../sim-topdeck.service';
 
 @Component({
-  selector: 'app-front',
+  selector: 'app-mtg',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './front.component.html',
-  styleUrl: './front.component.css'
+  templateUrl: './mtg.component.html',
+  styleUrl: './mtg.component.css'
 })
-export class FrontComponent implements OnInit {
+export class MTGComponent implements OnInit {
   valor: number | null = null;
   form!: FormGroup;
   mensajeVisible: boolean = false;

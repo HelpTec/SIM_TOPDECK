@@ -17,25 +17,27 @@
     margin: 10px;
     padding: 10px;
 }
-.caja_display1 {
+.caja_display {
     position: absolute;
-    top: 10px;
-    left: 0;
-    margin: 60.5px;
-    padding: 0;
+    left: 0px;;
+    padding: 0px;
     color: #333333;
 }
-.caja_display2 {
-    position: absolute;
+#caja1 {
+    top: 10px;
+    margin: 60.5px;
+}
+#caja2 {
     top: 40px;
-    left: 0;
     margin: 60px;
-    padding: 0;
-    color: #333333;
+}
+#caja3 {
+    top: 70px;
+    margin: 60px;
 }
 .boton {
     position: absolute;
-    top: 150px;
+    top: 180px;
     left: 220px;
     margin: 0px;
     padding: 0px;

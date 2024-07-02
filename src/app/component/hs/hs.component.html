@@ -1,0 +1,25 @@
+<div class="contenedor">
+    <div class= "caja_header">
+        <label for="titulo">HEARTHSTONE TOPDECKER</label>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+        <div class= "caja_display" id="caja1">
+            <label for="canticartas">CANTIDAD DE CARTAS</label>
+            <input id="cartas" formControlName="cartas" type="text" placeholder="30" NgModel>
+        </div>
+        <div class= "caja_display" id="caja2">
+            <label for="pares">CANTIDAD DE REPETIDAS</label>
+            <input id="pares" formControlName="pares" type="text" placeholder="0" NgModel>
+        </div>
+        <div class= "caja_display" id="caja3">
+            <label for="canticomodines">CAST WHEN DRAW</label>
+            <input id="comodines" formControlName="comodines" type="text" placeholder="0" NgModel>
+        </div>
+        <div class= "boton">
+            <button type="submit">Submitt</button>
+        </div>
+    </form>
+    <div class= "resultado" *ngIf="mensajeVisible">
+        <h2>EL PROMEDIO DE INTENTOS PARA ROBAR UNA CARTA ESPECIFICA ES DE {{ valor }} </h2>
+    </div>
+</div>
