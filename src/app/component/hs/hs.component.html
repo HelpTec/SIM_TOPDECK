@@ -20,6 +20,15 @@
         </div>
     </form>
     <div class= "resultado" *ngIf="mensajeVisible">
-        <h2>EL PROMEDIO DE INTENTOS PARA ROBAR UNA CARTA ESPECIFICA ES DE {{ valor }} </h2>
+        <!--
+        <h4>PROBAR GENERAR MAZO {{ mazo }} </h4>-->
+        <h4>PROMEDIO DE INTENTOS DIO {{ valor }} </h4>
+        <h4>NUMEROS BUSCADOS {{ numBuscados }} </h4>
+        <!--<h4>{{ falla }} </h4>-->
+        <!--<h4>CANTIDAD DE INTENTOS EN CADA CASO {{ intentosIndividuales }} </h4>
+            <div *ngFor="let deck of mazosTesteados">
+                <div><h4>LOS MAZOS TESTEADOS {{ deck }} </h4>
+                </div>
+            </div>-->
     </div>
 </div>
