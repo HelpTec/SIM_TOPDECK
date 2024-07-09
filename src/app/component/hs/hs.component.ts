@@ -21,6 +21,8 @@ export class HSComponent implements OnInit {
   intentosIndividuales: number[] = [];
   numBuscados: (number | string)[] = [];
   falla: string[] = [];
+  cantidadRepetidas: number[] = [];
+  longitudes: number[] = [];
 
   constructor(private fb:FormBuilder, private Servicio: HsService){}
 
@@ -43,6 +45,8 @@ export class HSComponent implements OnInit {
     this.mazosTesteados = resultado[2];
     this.numBuscados = resultado[3];
     this.falla= resultado[4];
+    this.cantidadRepetidas= resultado[6]; this
+    this.longitudes= resultado[5];
     this.mensajeVisible = true
   }
 }

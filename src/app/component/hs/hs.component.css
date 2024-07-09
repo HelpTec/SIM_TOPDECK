@@ -43,9 +43,13 @@
     padding: 0px;
 }
 .resultado {
+    width: 80%;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: auto;
     position: absolute;
     top: 200px;
     background-color: white;
-    margin: 20px;
+    margin: 0px;
     padding: 0px;
 }
