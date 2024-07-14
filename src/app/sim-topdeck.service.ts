@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Mazo } from '../models/mazo.model';
 
 @Injectable({
   providedIn: 'root'
