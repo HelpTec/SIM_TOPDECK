@@ -1,13 +1,10 @@
-export class Mazo {
-    cartas:(number | string)[];
+export class Mazo<T>{
+    cartas:T[];
 
-    constructor(cartas: (number | string)[]) {
+    constructor(cartas: T[]) {
     this.cartas = cartas;
     }
 
-    public getCartas(): Array<number | string> {
+    public getCartas(): T[] {
     return this.cartas = [];}
-
-    public setCartas(cartas: Array<number | string>): void {
-    this.cartas = cartas;}
     }
