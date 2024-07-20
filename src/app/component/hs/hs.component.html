@@ -1,8 +1,27 @@
-<div class="contenedor">
+<<div class="contenedor">
     <div class= "caja_header">
         <label for="titulo">HEARTHSTONE TOPDECKER</label>
     </div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <table border="1">
+        <thead>
+          <tr>
+            <th>COM</th>
+            <th>PARES</th>
+            <th>RAR</th>
+            <th>PARES</th>
+            <th>EPI</th>
+            <th>PARES</th>
+            <th>LEG</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+    </table>
+    <div class= "inputs">
+        <input id="comunes" formControlName="comunes" type="number" placeholder="0" NgModel>
+    </div>
+    
+    </div>
+    <!--<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
         <div class= "caja_display" id="caja1">
             <label for="canticartas">CANTIDAD DE CARTAS</label>
             <input id="cartas" formControlName="cartas" type="text" placeholder="30" NgModel>
@@ -20,11 +39,10 @@
         </div>
     </form>
     <div class= "resultado" *ngIf="mensajeVisible">
-        <!--
-        <h4>PROBAR GENERAR MAZO {{ mazo }} </h4>-->
+        <h4>PROBAR GENERAR MAZO {{ mazo }} </h4>
         <h4>PROMEDIO DE INTENTOS DIO {{ valor }} </h4>
         <h4>NUMEROS BUSCADOS {{ numBuscados }} </h4>
-        <!--<h4>{{ falla }} </h4>-->
+        <h4>{{ falla }} </h4>
         <h4>CANTIDAD DE DUPLICADOS {{ cantidadRepetidas }} </h4>
         <h4>LONGITUDOS DE MAZOS TESTEADOS {{ longitudes }} </h4>
         <h4>CANTIDAD DE INTENTOS EN CADA CASO {{ intentosIndividuales }} </h4>
@@ -32,5 +50,4 @@
                 <div><h4>LOS MAZOS TESTEADOS {{ deck }} </h4>
                 </div>
             </div>
-    </div>
-</div>
+    </div>-->
