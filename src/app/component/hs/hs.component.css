@@ -1,10 +1,10 @@
 .contenedor {
-    padding: 100px;
-    width:300px;
-    height:150px;
+
+    width:600px;
+    height:400px;
+    padding: 20px;
     position: relative;
     box-shadow: 10px 10px 5px rgba(0,0,0,0.5);
-    align-items: center;
     display: flex;
     justify-content: center;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
@@ -52,4 +52,37 @@
     background-color: white;
     margin: 0px;
     padding: 0px;
+}
+h3 {
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+th :not(.total){
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: 25px;
+    font-size: 12px;
+}
+
+#totales {
+    position: relative;
+    left: 80%;
+}
+#totalFinal{
+    position: relative;
+    left: 27%;
+}
+input :not(#total){
+    max-width: 30px;
+}
+
+.arquetipos {
+    padding: 0px;
+    margin: 0px;
+}
+
+.Ingresos {
+    position: relative;
+    top:13%;
+    right: 20%;
 }
