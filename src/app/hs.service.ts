@@ -1,24 +1,6 @@
 import { Injectable } from '@angular/core';
-
-interface CartaHs{
-  id:number;
-  tipo:string;
-  rareza:string;
-  clase:boolean;
-}
-
-interface Armador{
-  tipo: string;
-  comunes: number;
-  comunesPares: number;
-  raras: number;
-  rarasPares: number;
-  epicas: number;
-  epicasPares: number;
-  legendarias: number;
-  clase: boolean;
-  total: number;
-}  
+import { CartaHs } from '../models/cartaHs';
+import { Armador } from '../models/armador';
   @Injectable({
   providedIn: 'root'
 })
@@ -97,5 +79,4 @@ export class HsService {
       mezclador(mazo);
     return mazo;
     }
-    
   }

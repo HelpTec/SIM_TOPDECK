@@ -6,7 +6,7 @@
     position: relative;
     box-shadow: 10px 10px 5px rgba(0,0,0,0.5);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     color: #333333;
     font-family: 'Roboto', sans-serif;
@@ -23,59 +23,19 @@
     padding: 0px;
     color: #333333;
 }
-#caja1 {
-    top: 10px;
-    margin: 60.5px;
-}
-#caja2 {
-    top: 40px;
-    margin: 60px;
-}
-#caja3 {
-    top: 70px;
-    margin: 60px;
-}
-.boton {
-    position: absolute;
-    top: 180px;
-    left: 220px;
-    margin: 0px;
-    padding: 0px;
-}
-.resultado {
-    width: 80%;
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: auto;
-    position: absolute;
-    top: 200px;
-    background-color: white;
-    margin: 0px;
-    padding: 0px;
-}
 h3 {
     font-size: 16px;
-    margin-bottom: 0px;
 }
-th :not(.total){
+th{
+    max-width: 25px;
+    font-size: 12px;
+}
+.ingreso{
     margin-left: 5px;
     margin-right: 5px;
     max-width: 25px;
     font-size: 12px;
 }
-
-#totales {
-    position: relative;
-    left: 80%;
-}
-#totalFinal{
-    position: relative;
-    left: 27%;
-}
-input :not(#total){
-    max-width: 30px;
-}
-
 .arquetipos {
     padding: 0px;
     margin: 0px;
@@ -83,6 +43,9 @@ input :not(#total){
 
 .Ingresos {
     position: relative;
-    top:13%;
-    right: 20%;
+    top: 13%;
+}
+button{
+    position: relative;
+    top: 13%;
 }
