@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HsService } from '../../hs.service';
 import { Armador } from '../../../models/armador';
+import { CartaHs } from '../../../models/cartaHs';
+import { Mazo } from '../../../models/mazo.model';
 
 @Component({
   selector: 'app-hs',
@@ -13,7 +15,6 @@ import { Armador } from '../../../models/armador';
 })
 export class HSComponent implements OnInit {
   arquetiposDeCartas: string[] = ['Esbirro', 'Arma', 'Hechizo', 'Locacion'];
-/*  form!: FormGroup;*/
   armadores : Armador[] = [];
   formGroups: FormGroup[] = [];
 
@@ -77,13 +78,23 @@ export class HSComponent implements OnInit {
       return arquetipos[indice];
   }
 
-  procesarFormulario() {
-      this.armadores = [];
+  generarMazoHs(): Mazo<CartaHs>{
+    this.armadores = [];
+    let mazoParcial: Mazo<CartaHs>[] = [];
       for (let i= 0; i < this.arquetiposDeCartas.length; i++) {
       this.armadores.push(this.crearArmador(i));}
-      console.log(this.formGroups.values);
-      console.log(this.armadores);
-      console.log(this.armadores[0]);
+      for (let armador of this.armadores){
+        mazoParcial.push(this.Servicio.generadorMazoHsPorTipo(armador))}
+      ;
+      return this.Servicio.generarMazoFinal(mazoParcial)
+  }
+
+  procesarFormulario() {
+    let mazo:Mazo<CartaHs> = this.generarMazoHs();
+    console.log(this.formGroups.values);
+    console.log(this.armadores);
+    console.log(this.armadores[0]);
+    console.log(mazo.cartas);
   }
 
   onSubmit() {

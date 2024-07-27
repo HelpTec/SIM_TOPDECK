@@ -1,12 +1,9 @@
-export class CartaHs{
-    id:number;
-    tipo:string;
-    rareza:string;
+import { Carta } from "./carta";
+export class CartaHs extends Carta {
     clase:boolean;
-    constructor(id:number, tipo:string, rareza: string, clase:boolean){
-        this.id = id;
-        this.tipo = tipo;
-        this.rareza = rareza;
+
+    constructor(id: number, tipo: string, rareza: string, clase:boolean){
+        super(id, tipo, rareza);
         this.clase = clase;
     }
 }

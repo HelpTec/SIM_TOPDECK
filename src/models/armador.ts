@@ -10,7 +10,9 @@ export class Armador{
     clase: boolean;
     total: number;
 
-    constructor(tipo: string, comunes:number, comunesPares: number, raras:number, rarasPares: number, epicas: number, epicasPares:number, legendarias:number, clase: boolean, total:number){
+    constructor(tipo: string, comunes:number, comunesPares: number, raras:number, 
+        rarasPares: number, epicas: number, epicasPares:number, legendarias:number, 
+        clase: boolean, total:number){
         this.tipo= tipo;
         this.comunes=comunes;
         this.comunesPares=comunesPares;

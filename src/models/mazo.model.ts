@@ -6,5 +6,5 @@ export class Mazo<T>{
     }
 
     public getCartas(): T[] {
-    return this.cartas = [];}
+    return this.cartas;}
     }
