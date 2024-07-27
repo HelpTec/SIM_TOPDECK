@@ -13,7 +13,7 @@ import { Armador } from '../../../models/armador';
 })
 export class HSComponent implements OnInit {
   arquetiposDeCartas: string[] = ['Esbirro', 'Arma', 'Hechizo', 'Locacion'];
-  form!: FormGroup;
+/*  form!: FormGroup;*/
   armadores : Armador[] = [];
   formGroups: FormGroup[] = [];
 
@@ -21,27 +21,10 @@ export class HSComponent implements OnInit {
     this.arquetiposDeCartas.forEach(() => {
       this.formGroups.push(this.createFormGroup());
   });
-    this.form = this.fb.group({
-      arquetipos: this.fb.array([])
-  });
-    this.inicializarArquetipos();
   }
 
   ngOnInit(): void {
-/*    this.form = this.fb.group({
-      comunes:[0, Validators.required],
-      comPAR:[0],
-      raras:[0],
-      rarPAR:[0],
-      epicas:[0],
-      epiPAR:[0],
-      legendarias:[0],
-      totales:[{ value: 0, disabled: true}]
-    });
-    this.form.valueChanges.subscribe(value => {
-      this.calcuTotalesParciales(i);
-    });
-*/
+
   }
   calcuTotalesParciales(index:number): void {
     const formGroup = this.formGroups[index];
@@ -60,6 +43,7 @@ export class HSComponent implements OnInit {
     const numberValue = Number(value);
     return isNaN(numberValue) ? 0 : numberValue;
   }
+
   createFormGroup(): FormGroup {
     return this.fb.group({
         comunes: [0, Validators.required],
@@ -71,49 +55,33 @@ export class HSComponent implements OnInit {
         legendarias: [0],
         totales: [{value: 0, disabled: true}]
     });
-}
-  inicializarArquetipos() {
-    const arquetipos = ['Esbirros', 'Armas', 'Hechizos', 'Locaciones', 'Héroes'];
-    const arquetipoFGs = arquetipos.map(tipo => this.fb.group({
-      comunes: [0],
-      comunesPares: [0],
-      raras: [0],
-      rarasPares: [0],
-      epicas: [0],
-      epicasPares: [0],
-      legendarias: [0],
-      totales: [0],
-    }));
-    const formArray = this.form.get('arquetipos') as FormArray;
-    arquetipoFGs.forEach(fg => formArray.push(fg));}
+  }
 
-  obtenerArmadores(): Armador[] {
-      const arquetiposArray = this.form.get('arquetipos') as FormArray;
-      return arquetiposArray.controls.map((fg, index) => {
-        const values = fg.value;
-        const tipo = this.obtenerTipoPorIndice(index);
-        return new Armador(
-          tipo,
-          values.comunes,
-          values.comunesPares,
-          values.raras,
-          values.rarasPares,
-          values.epicas,
-          values.epicasPares,
-          values.legendarias,
-          false,  // Clase siempre falsa
-          values.totales
-        );
-      });
-    }
+  crearArmador(index:number): Armador {
+    const formGroup = this.formGroups[index];
+    const tipo = this.obtenerTipoPorIndice(index);
+    let comunes= this.toNumber(formGroup.get('comunes')?.value);
+    let comunesPares= this.toNumber(formGroup.get('comPAR')?.value);
+    let raras= this.toNumber(formGroup.get('raras')?.value);
+    let rarasPares= this.toNumber(formGroup.get('rarPAR')?.value);
+    let epicas= this.toNumber(formGroup.get('epicas')?.value);
+    let epicasPares= this.toNumber(formGroup.get('epiPAR')?.value);
+    let legendarias= this.toNumber(formGroup.get('legendarias')?.value);
+    let clase= false;
+    let total= this.toNumber(formGroup.get('totales')?.value);
+    return new Armador(tipo, comunes, comunesPares, raras, rarasPares, epicas, epicasPares, legendarias, clase, total);
+  }
+
   obtenerTipoPorIndice(indice: number): string {
       const arquetipos = ['Esbirros', 'Armas', 'Hechizos', 'Locaciones', 'Héroes'];
       return arquetipos[indice];
   }
 
   procesarFormulario() {
-      this.armadores = this.obtenerArmadores();
-      console.log(this.form.value);
+      this.armadores = [];
+      for (let i= 0; i < this.arquetiposDeCartas.length; i++) {
+      this.armadores.push(this.crearArmador(i));}
+      console.log(this.formGroups.values);
       console.log(this.armadores);
       console.log(this.armadores[0]);
   }
