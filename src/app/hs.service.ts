@@ -18,8 +18,8 @@ export class HsService {
   generadorMazoHsPorTipo(armador:Armador):Mazo<CartaHs>{
     let cartas:CartaHs[]= [];
     let id:number = 1
-    let rarezaUnica:string[] = ["comunes","raras","epicas", "legendarias"];
-    let rarezaPar:string[] = ["comunesPares","rarasPares","epicasPares"];
+    let rarezaUnica:string[] = ["comun","rara","epica", "legendaria"];
+    let rarezaPar:string[] = ["comun","rara","epica"];
 
     for (let i of rarezaUnica){
       for (let c = 0; c < (armador as any)[i]; c++){

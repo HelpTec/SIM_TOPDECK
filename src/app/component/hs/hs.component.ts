@@ -74,7 +74,7 @@ export class HSComponent implements OnInit {
   }
 
   obtenerTipoPorIndice(indice: number): string {
-      const arquetipos = ['Esbirros', 'Armas', 'Hechizos', 'Locaciones', 'Héroes'];
+      const arquetipos = ['Esbirro', 'Arma', 'Hechizo', 'Locacion', 'Héroe'];
       return arquetipos[indice];
   }
 
