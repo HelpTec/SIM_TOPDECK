@@ -5,11 +5,12 @@ import { HsService } from '../../hs.service';
 import { Armador } from '../../../models/armador';
 import { CartaHs } from '../../../models/cartaHs';
 import { Mazo } from '../../../models/mazo.model';
+import { GraficosComponent } from "../graficos/graficos.component";
 
 @Component({
   selector: 'app-hs',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, GraficosComponent],
   templateUrl: './hs.component.html',
   styleUrl: './hs.component.css'
 })
