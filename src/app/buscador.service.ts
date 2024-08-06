@@ -165,7 +165,7 @@ export class BuscadorService {
   }
 
   casosDePrueba(mazo: Mazo<CartaHs>): Resultados[]{
-    let intentos:number = 100;
+    let intentos:number = 10;
     let tipos: string[] = ['Esbirro','Arma','Hechizo','Locacion','Héroe'];
     let rareza: string[] = ['comun', 'rara', 'epica', 'legendaria'];
     let listaResultados:Resultados[] = [];

@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 import { CommonModule } from '@angular/common';
 import { HsService } from '../../hs.service';
 import { Armador } from '../../../models/armador';
-import { CartaHs } from '../../../models/cartaHs';
-import { Mazo } from '../../../models/mazo.model';
+import { Procesador } from '../../procesador';
 import { GraficosComponent } from "../graficos/graficos.component";
 
 @Component({
@@ -15,11 +14,11 @@ import { GraficosComponent } from "../graficos/graficos.component";
   styleUrl: './hs.component.css'
 })
 export class HSComponent implements OnInit {
-  arquetiposDeCartas: string[] = ['Esbirro', 'Arma', 'Hechizo', 'Locacion'];
+  arquetiposDeCartas: string[] = ['Esbirro', 'Arma', 'Hechizo', 'Locacion', 'Heroe'];
   armadores : Armador[] = [];
   formGroups: FormGroup[] = [];
 
-  constructor(private fb:FormBuilder, private Servicio: HsService){
+  constructor(private fb:FormBuilder, private Servicio: HsService, private Procesador: Procesador){
     this.arquetiposDeCartas.forEach(() => {
       this.formGroups.push(this.createFormGroup());
   });
@@ -59,6 +58,11 @@ export class HSComponent implements OnInit {
     });
   }
 
+  obtenerTipoPorIndice(indice: number): string {
+    const arquetipos = ['Esbirro', 'Arma', 'Hechizo', 'Locacion', 'Héroe'];
+    return arquetipos[indice];
+}
+
   crearArmador(index:number): Armador {
     const formGroup = this.formGroups[index];
     const tipo = this.obtenerTipoPorIndice(index);
@@ -71,34 +75,19 @@ export class HSComponent implements OnInit {
     let legendarias= this.toNumber(formGroup.get('legendarias')?.value);
     let clase= false;
     let total= this.toNumber(formGroup.get('totales')?.value);
-    return new Armador(tipo, comunes, comunesPares, raras, rarasPares, epicas, epicasPares, legendarias, clase, total);
+    return new Armador(tipo, comunes, comunesPares, 
+      raras, rarasPares, epicas, epicasPares, legendarias, clase, total);
   }
 
-  obtenerTipoPorIndice(indice: number): string {
-      const arquetipos = ['Esbirro', 'Arma', 'Hechizo', 'Locacion', 'Héroe'];
-      return arquetipos[indice];
-  }
-
-  generarMazoHs(): Mazo<CartaHs>{
+  generarListaArmadores(): void{
     this.armadores = [];
-    let mazoParcial: Mazo<CartaHs>[] = [];
       for (let i= 0; i < this.arquetiposDeCartas.length; i++) {
       this.armadores.push(this.crearArmador(i));}
-      for (let armador of this.armadores){
-        mazoParcial.push(this.Servicio.generadorMazoHsPorTipo(armador))}
-      ;
-      return this.Servicio.generarMazoFinal(mazoParcial)
-  }
-
-  procesarFormulario() {
-    let mazo:Mazo<CartaHs> = this.generarMazoHs();
-    console.log(this.formGroups.values);
-    console.log(this.armadores);
-    console.log(this.armadores[0]);
-    console.log(mazo.cartas);
   }
 
   onSubmit() {
-   this.procesarFormulario();
+    this.generarListaArmadores()
+    this.Procesador.procesarDatos(this.armadores)
+    let lista = this.Procesador.getListaMazo()
   }
 }
