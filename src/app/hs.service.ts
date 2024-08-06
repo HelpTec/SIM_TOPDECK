@@ -19,27 +19,26 @@ export class HsService {
     let cartas:CartaHs[]= [];
     let id:number = 1
     let rarezaUnica:string[] = ["comun","rara","epica", "legendaria"];
+    let atributosUnicos:number [] = [armador.comunes, armador.raras, armador.epicas, armador.legendarias]
     let rarezaPar:string[] = ["comun","rara","epica"];
-
+    let atributosPares:number[] = [armador.comunesPares, armador.rarasPares, armador.epicasPares];
     for (let i of rarezaUnica){
-      for (let c = 0; c < (armador as any)[i]; c++){
+      for (let c = 0; c < atributosUnicos[c]; c++){
         let carta = new CartaHs(id, armador.tipo, i, false);
         cartas.push(carta);
         id++;}}
-        console.log(cartas);
     for (let i of rarezaPar){
-      for (let c = 0; c < (armador as any)[i]; c++){
+      for (let c = 0; c < atributosPares[c]; c++){
         let carta = new CartaHs(id, armador.tipo, i, false);
         cartas.push(carta);
         cartas.push(carta);
         id++;
       }
     }
-    console.log(cartas);
     let mazo = new Mazo<CartaHs>(cartas);
-    console.log(mazo);
     return mazo;
   }
+  
   generarMazoFinal(mazos:Mazo<CartaHs>[]):Mazo<CartaHs>{
     let cartasCombinadas:CartaHs[] = [];
     mazos.forEach(mazo => {

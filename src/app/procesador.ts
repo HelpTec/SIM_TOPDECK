@@ -42,11 +42,9 @@ export class Procesador {
     ) { }
 
     generarMazoHs(armadores:Armador[]): Mazo<CartaHs>{
-      console.log('recibi un armador con ', armadores[0].comunes)
     let mazoParcial: Mazo<CartaHs>[] = [];
       for (let armador of armadores){
-        let mazoGenerado = this.GenerarMazo.generadorMazoHsPorTipo(armador)
-        console.log('yo genere este mazo parcial ')
+        let mazoGenerado:Mazo<CartaHs> = this.GenerarMazo.generadorMazoHsPorTipo(armador)
         for (let i = 0; i < mazoGenerado.cartas.length; i++){
           console.log(mazoGenerado.cartas[i])
         }
