@@ -15,14 +15,15 @@ export class BuscadorService {
   constructor(private servicio: HsService) { }
 
   selectorCombinado(mazo:Mazo<CartaHs>,tipo?:string, rareza?:string): CartaHs | null{
-    if (mazo.cartas.length === 0){
+    let mazoABuscar = mazo
+    if (mazoABuscar.cartas.length === 0){
       console.log("Mazo vacio o no hay mazo legible")
       return null;
     }
     const listaCartasSegunFiltro:CartaHs[] = [];
 
     if (tipo && rareza){
-      for (const carta of mazo.cartas) {
+      for (const carta of mazoABuscar.cartas) {
         if (carta.rareza === rareza && carta.tipo === tipo){
           listaCartasSegunFiltro.push(carta)
         }
@@ -34,7 +35,7 @@ export class BuscadorService {
         return idRandom
     }
     if (!tipo && rareza){
-      for (const carta of mazo.cartas){
+      for (const carta of mazoABuscar.cartas){
         if (carta.rareza === rareza){
           listaCartasSegunFiltro.push(carta)
         }
@@ -47,7 +48,7 @@ export class BuscadorService {
       return idRandom
     } 
     if (tipo && !rareza){
-      for (const carta of mazo.cartas){
+      for (const carta of mazoABuscar.cartas){
         if (carta.tipo === tipo){
           listaCartasSegunFiltro.push(carta)
         }
@@ -60,21 +61,22 @@ export class BuscadorService {
       return idRandom
     }
     if (!tipo && !rareza){
-      const idRandom = mazo.cartas[(Math.floor(Math.random() * mazo.cartas.length))];
+      const idRandom = mazoABuscar.cartas[(Math.floor(Math.random() * mazoABuscar.cartas.length))];
       return idRandom
     }
     return null;
   }
 
   topdeck(mazo:Mazo<CartaHs>, buscar:CartaHs | null): number {
+    let mazoABuscar = mazo
     let contador = 0
     if (!buscar){
       console.log("No hay nada que buscar");
       return 0
     }
-    while (mazo.cartas.length > 0) {
+    while (mazoABuscar.cartas.length > 0) {
       contador++;
-      let carta: CartaHs = mazo.cartas.shift()!;
+      let carta: CartaHs = mazoABuscar.cartas.shift()!;
       if (carta.id === buscar.id) {
       return contador;
       }
@@ -84,25 +86,28 @@ export class BuscadorService {
   }
 
   buscarEn(mazo:Mazo<CartaHs>, buscar:CartaHs | null): boolean {
+    let mazoABuscar = mazo
     if (buscar) {
-      return mazo.cartas.some(carta => carta !== undefined && carta.id === buscar.id);
+      return mazoABuscar.cartas.some(carta => carta !== undefined && carta.id === buscar.id);
     } else {
       return false;
     }
   }
 
   drawhand(mazo:Mazo<CartaHs>): [Mazo<CartaHs>, Mazo<CartaHs>] {
-    let primeraMano = new Mazo<CartaHs>(this.robarX(mazo, 3));
-    return [primeraMano, new Mazo(mazo.cartas.filter(carta => !primeraMano.cartas.includes(carta)))];
+    let mazoABuscar = mazo
+    let primeraMano = new Mazo<CartaHs>(this.robarX(mazoABuscar, 3));
+    return [primeraMano, new Mazo(mazoABuscar.cartas.filter(carta => !primeraMano.cartas.includes(carta)))];
   }
 
   contadorDrawHand(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):number[] {
+    let mazoABuscar = mazo
     let resultadosPrimeraMano:boolean[] = []
     let resultadosMulligan:boolean[] = []
     for (let i = 0; i < intentos; i++) {
-      this.servicio.mezclador(mazo.cartas)
-      let mano = this.drawhand(mazo)[0]
-      let mazoSinDrawHand = this.drawhand(mazo)[1]
+      this.servicio.mezclador(mazoABuscar.cartas)
+      let mano = this.drawhand(mazoABuscar)[0]
+      let mazoSinDrawHand = this.drawhand(mazoABuscar)[1]
       if (this.buscarEn(mano, buscar)){
         resultadosPrimeraMano.push(true)
       } else {
@@ -117,18 +122,20 @@ export class BuscadorService {
   }
 
   robarX(mazo:Mazo<CartaHs>,robar:number):CartaHs[]{
+    let mazoABuscar= mazo
     let robarX:CartaHs[]=[]
     for (let i = 0; i < robar; i++){
-      robarX.push(mazo.cartas[i]);
+      robarX.push(mazoABuscar.cartas[i]);
     }
     return robarX
   }
 
   develarXTipo(mazo:Mazo<CartaHs>, tipo: string | null):Mazo<CartaHs>{
+    let mazoABuscar = mazo
     let develadas = new Mazo<CartaHs>([]);
     if (tipo){
-    while (develadas.cartas.length < 3 && mazo.cartas.length > 0) {
-      let carta:CartaHs = mazo.cartas.shift()!;
+    while (develadas.cartas.length < 3 && mazoABuscar.cartas.length > 0) {
+      let carta:CartaHs = mazoABuscar.cartas.shift()!;
       if (carta.tipo === tipo){
         develadas.cartas.push(carta);
       }
@@ -140,11 +147,12 @@ export class BuscadorService {
   }
 
   contadorDevelado(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null, tipo:string | null): number{
+    let mazoABuscar = mazo;
     let contador:boolean[] = [];
     if (mazo.cartas.length > 0){
       for (let i = 0; i < intentos; i++) {
-      this.servicio.mezclador(mazo.cartas);
-      let develar = this.develarXTipo(mazo, tipo);
+      this.servicio.mezclador(mazoABuscar.cartas);
+      let develar = this.develarXTipo(mazoABuscar, tipo);
       contador.push(this.buscarEn(develar, buscar));
       }}
     return contador.filter(value => value).length;
@@ -156,33 +164,36 @@ export class BuscadorService {
   }
 
   buscarPostPrimeraManoYMulligan(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):number{
+    let mazoABuscar = mazo;
     let contador:number=0
     for (let i=0; i<intentos; i++) {
-      this.servicio.mezclador(mazo.cartas);
-      contador =+ this.topdeck(this.drawhand(mazo)[1], buscar);
+      this.servicio.mezclador(mazoABuscar.cartas);
+      contador =+ this.topdeck(this.drawhand(mazoABuscar)[1], buscar);
     }
     return contador;
 
   }
 
   casosDePrueba(mazo: Mazo<CartaHs>): Resultados[]{
-    for (let i=0; i<mazo.cartas.length; i++){
-      console.log(mazo.cartas[i])
-    }
     let intentos:number = 10;
     let tipos: string[] = ['Esbirro','Arma','Hechizo','Locacion','Héroe'];
     let rareza: string[] = ['comun', 'rara', 'epica', 'legendaria'];
     let listaResultados:Resultados[] = [];
     tipos.forEach(criterio => {
       rareza.forEach(rareza =>{
-        let carta:CartaHs | null = this.selectorCombinado(mazo, criterio, rareza );
+        let mazoABuscar = mazo.clone();
+        let carta:CartaHs | null = this.selectorCombinado(mazoABuscar, criterio, rareza );
         if (carta){
-          let puro = this.promediador(this.topdeck(mazo, carta), intentos);
-          let promsPrimYMull:number[] = this.contadorDrawHand(mazo, intentos, carta)
+          let mazoABuscar1 = mazo.clone();
+          let puro = this.promediador(this.topdeck(mazoABuscar1, carta), intentos);
+          let mazoABuscar2 = mazo.clone();
+          let promsPrimYMull:number[] = this.contadorDrawHand(mazoABuscar2, intentos, carta)
           let primeraMano= this.promediador(promsPrimYMull[0], intentos);
           let mulligan= this.promediador(promsPrimYMull[1], intentos);
-          let postPrimeraManoYMulligan= this.promediador(this.buscarPostPrimeraManoYMulligan(mazo, intentos, carta), intentos);
-          let develado= this.promediador(this.contadorDevelado(mazo, intentos, carta, carta.tipo), intentos);;
+          let mazoABuscar3 = mazo.clone();
+          let postPrimeraManoYMulligan= this.promediador(this.buscarPostPrimeraManoYMulligan(mazoABuscar3, intentos, carta), intentos);
+          let mazoABuscar4 = mazo.clone();
+          let develado= this.promediador(this.contadorDevelado(mazoABuscar4, intentos, carta, carta.tipo), intentos);;
           let promedio = new Promedios(puro, primeraMano, mulligan, postPrimeraManoYMulligan, develado)
           listaResultados.push(new Resultados(carta, promedio))
         }
