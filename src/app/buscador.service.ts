@@ -85,7 +85,7 @@ export class BuscadorService {
 
   buscarEn(mazo:Mazo<CartaHs>, buscar:CartaHs | null): boolean {
     if (buscar) {
-    return (mazo.cartas.some(carta => carta.id === buscar.id))
+      return mazo.cartas.some(carta => carta !== undefined && carta.id === buscar.id);
     } else {
       return false;
     }
@@ -125,9 +125,9 @@ export class BuscadorService {
   }
 
   develarXTipo(mazo:Mazo<CartaHs>, tipo: string | null):Mazo<CartaHs>{
-    if (tipo){
     let develadas = new Mazo<CartaHs>([]);
-    while (develadas.cartas.length < 3) {
+    if (tipo){
+    while (develadas.cartas.length < 3 && mazo.cartas.length > 0) {
       let carta:CartaHs = mazo.cartas.shift()!;
       if (carta.tipo === tipo){
         develadas.cartas.push(carta);
@@ -135,17 +135,18 @@ export class BuscadorService {
     }
     return develadas;
   } else {
-    return mazo
+    return develadas
   }
   }
 
   contadorDevelado(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null, tipo:string | null): number{
     let contador:boolean[] = [];
-    for (let i = 0; i < intentos; i++) {
+    if (mazo.cartas.length > 0){
+      for (let i = 0; i < intentos; i++) {
       this.servicio.mezclador(mazo.cartas);
       let develar = this.develarXTipo(mazo, tipo);
       contador.push(this.buscarEn(develar, buscar));
-      }
+      }}
     return contador.filter(value => value).length;
     }
 
@@ -165,6 +166,9 @@ export class BuscadorService {
   }
 
   casosDePrueba(mazo: Mazo<CartaHs>): Resultados[]{
+    for (let i=0; i<mazo.cartas.length; i++){
+      console.log(mazo.cartas[i])
+    }
     let intentos:number = 10;
     let tipos: string[] = ['Esbirro','Arma','Hechizo','Locacion','Héroe'];
     let rareza: string[] = ['comun', 'rara', 'epica', 'legendaria'];

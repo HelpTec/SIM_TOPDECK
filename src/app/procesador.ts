@@ -45,21 +45,14 @@ export class Procesador {
     let mazoParcial: Mazo<CartaHs>[] = [];
       for (let armador of armadores){
         let mazoGenerado:Mazo<CartaHs> = this.GenerarMazo.generadorMazoHsPorTipo(armador)
-        for (let i = 0; i < mazoGenerado.cartas.length; i++){
-          console.log(mazoGenerado.cartas[i])
-        }
-        mazoParcial.push(mazoGenerado)}
-      ;
+        mazoParcial.push(mazoGenerado)};
       return this.GenerarMazo.generarMazoFinal(mazoParcial)
     }
 
     procesarDatos(armadores:Armador[]): void{
       const listaProcesada = armadores;
       this.listaProcesadas.next(listaProcesada);
-      let mazo:Mazo<CartaHs>= this.generarMazoHs(armadores)
-      for (let i = 0; i < mazo.cartas.length; i++){
-        console.log(mazo.cartas[i])
-      }
+      let mazo= this.generarMazoHs(armadores)
       const datosProcesados = this.Buscar.casosDePrueba(mazo)
       this.datosProcesados.next(datosProcesados);
 
