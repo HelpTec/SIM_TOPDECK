@@ -19,12 +19,12 @@ export class GraficosComponent implements OnInit {
   constructor(private Procesador:Procesador){}
 
   ngOnInit(): void {
-    this.listaprocesada.push(new Armador('Vacio', 2, 3, 4, 1, 1, 0, 2, false, 13))
     this.Procesador.getResultados().subscribe(data => {
       this.datosProcesados = data;
     });
     this.Procesador.getListaMazo().subscribe(dato => {
       this.listaprocesada = dato;
+      this.drawChart()
     });
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(this.drawChart.bind(this));
