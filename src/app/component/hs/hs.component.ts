@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HsService } from '../../hs.service';
@@ -14,6 +14,7 @@ import { GraficosComponent } from "../graficos/graficos.component";
   styleUrl: './hs.component.css'
 })
 export class HSComponent implements OnInit {
+  @Output() submitClicked: EventEmitter<void> = new EventEmitter<void>();
   arquetiposDeCartas: string[] = ['Esbirro', 'Arma', 'Hechizo', 'Locacion', 'Heroe'];
   armadores : Armador[] = [];
   formGroups: FormGroup[] = [];
@@ -89,5 +90,6 @@ export class HSComponent implements OnInit {
     this.generarListaArmadores()
     this.Procesador.procesarDatos(this.armadores)
     let lista = this.Procesador.getListaMazo()
+    this.submitClicked.emit();
   }
 }

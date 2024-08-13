@@ -17,4 +17,5 @@ import { GraficosComponent } from "./component/graficos/graficos.component";
 })
 export class AppComponent {
   title = 'Sim_Topdeck';
+  
 }
