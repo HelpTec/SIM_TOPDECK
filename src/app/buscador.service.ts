@@ -4,6 +4,7 @@ import { Mazo } from '../models/mazo.model';
 import { HsService } from './hs.service';
 import { Promedios } from '../models/promedios.model';
 import { Resultados } from '../models/resultados.model';
+import { Conteos } from '../models/conteos.model';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,7 @@ export class BuscadorService {
     return [primeraMano, new Mazo(mazo.cartas.filter(carta => !primeraMano.cartas.includes(carta)))];
   }
 
-  contadorDrawHand(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):number[] {
+  contadorDrawHand(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):[number[], boolean[], boolean[]] {
     let resultadosPrimeraMano:boolean[] = []
     let resultadosMulligan:boolean[] = []
     for (let i = 0; i < intentos; i++) {
@@ -113,7 +114,7 @@ export class BuscadorService {
     }
     let contadorPrimeraMano:number = resultadosPrimeraMano.filter(value => value).length;
     let contadorMulligan:number = resultadosMulligan.filter(value => value).length;
-    return [contadorPrimeraMano, contadorMulligan];
+    return [[contadorPrimeraMano, contadorMulligan], resultadosPrimeraMano, resultadosMulligan];
   }
 
   robarX(mazo:Mazo<CartaHs>,robar:number):CartaHs[]{
@@ -139,7 +140,7 @@ export class BuscadorService {
   }
   }
 
-  contadorDevelado(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null, tipo:string | null): number{
+  contadorDevelado(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null, tipo:string | null): [number, boolean[]]{
     let contador:boolean[] = [];
     if (mazo.cartas.length > 0){
       for (let i = 0; i < intentos; i++) {
@@ -147,21 +148,37 @@ export class BuscadorService {
       let develar = this.develarXTipo(mazo, tipo);
       contador.push(this.buscarEn(develar, buscar));
       }}
-    return contador.filter(value => value).length;
+    return [contador.filter(value => value).length, contador]
     }
+  
+  contadorPuro(mazo:Mazo<CartaHs>, buscar:CartaHs | null, intentos:number):[number, number[]]{
+    let contadorTotal:number = 0
+    let contadores:number[] = [];
+    for (let i = 0; i < intentos; i++) {
+      let mazoABuscar = mazo.clone();
+      this.servicio.mezclador(mazoABuscar.cartas)
+      let contador=this.topdeck(mazoABuscar, buscar)
+      contadorTotal += contador
+      contadores.push(contador);
+    }
+    return [contadorTotal, contadores]
+  }
 
   promediador(contadores:number, intentos:number):number {
     let promedio = contadores/intentos;
     return promedio
   }
 
-  buscarPostPrimeraManoYMulligan(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):number{
-    let contador:number=0
+  buscarPostPrimeraManoYMulligan(mazo:Mazo<CartaHs>, intentos:number, buscar:CartaHs| null):[number, number[]]{
+    let contadorTotal:number=0
+    let contadores:number[] = [];
     for (let i=0; i<intentos; i++) {
       this.servicio.mezclador(mazo.cartas);
-      contador =+ this.topdeck(this.drawhand(mazo)[1], buscar);
+      let contador = this.topdeck(this.drawhand(mazo)[1], buscar);
+      contadorTotal += contador;
+      contadores.push(contador);
     }
-    return contador;
+    return [contadorTotal, contadores];
 
   }
 
@@ -175,18 +192,26 @@ export class BuscadorService {
         let mazoABuscar = mazo.clone();
         let carta:CartaHs | null = this.selectorCombinado(mazoABuscar, criterio, rareza );
         if (carta){
+          //puros
           let mazoABuscar1 = mazo.clone();
-          let puro = this.promediador(this.topdeck(mazoABuscar1, carta), intentos);
+          let contadorPuro = this.contadorPuro(mazoABuscar1, carta, intentos)
+          let puro = this.promediador(contadorPuro[0], intentos);
+          //drawhand y mull
           let mazoABuscar2 = mazo.clone();
-          let promsPrimYMull:number[] = this.contadorDrawHand(mazoABuscar2, intentos, carta)
-          let primeraMano= this.promediador(promsPrimYMull[0], intentos);
-          let mulligan= this.promediador(promsPrimYMull[1], intentos);
+          let promsPrimYMull:any[] = this.contadorDrawHand(mazoABuscar2, intentos, carta)
+          let primeraMano= this.promediador(promsPrimYMull[0][0], intentos);
+          let mulligan= this.promediador(promsPrimYMull[0][1], intentos);
+          //postPrimYMull
           let mazoABuscar3 = mazo.clone();
-          let postPrimeraManoYMulligan= this.promediador(this.buscarPostPrimeraManoYMulligan(mazoABuscar3, intentos, carta), intentos);
+          let contPostPrimeraManoYMulligan = this.buscarPostPrimeraManoYMulligan(mazoABuscar3, intentos, carta)
+          let postPrimeraManoYMulligan= this.promediador(contPostPrimeraManoYMulligan[0], intentos);
+          //develado
           let mazoABuscar4 = mazo.clone();
-          let develado= this.promediador(this.contadorDevelado(mazoABuscar4, intentos, carta, carta.tipo), intentos);;
+          let contDevelado = this.contadorDevelado(mazoABuscar4, intentos, carta, carta.tipo)
+          let develado= this.promediador(contDevelado[0], intentos);;
           let promedio = new Promedios(puro, primeraMano, mulligan, postPrimeraManoYMulligan, develado)
-          listaResultados.push(new Resultados(carta, promedio))
+          let contadores = new Conteos(contadorPuro[1], promsPrimYMull[1], promsPrimYMull[2], contPostPrimeraManoYMulligan[1], contDevelado[1])
+          listaResultados.push(new Resultados(carta, promedio, contadores))
         }
       });
     });

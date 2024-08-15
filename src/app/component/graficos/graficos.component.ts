@@ -26,6 +26,7 @@ export class GraficosComponent implements OnInit {
     });*/
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(this.drawLineChart.bind(this));
+    google.charts.setOnLoadCallback(this.drawLineChartbools.bind(this));
     google.charts.setOnLoadCallback(this.drawPieChart.bind(this));
     this.Procesador.getResultados().subscribe(data => {
       this.datosProcesados = data;
@@ -34,6 +35,7 @@ export class GraficosComponent implements OnInit {
       this.listaprocesada = dato;
       this.drawPieChart()
       this.drawLineChart()
+      this.drawLineChartbools()
     });
   }
 
@@ -98,17 +100,55 @@ export class GraficosComponent implements OnInit {
     const chart = new google.visualization.PieChart(document.getElementById('piechart'));
     chart.draw(data, options);
   }}
+  drawLineChartbools(): void {
+    const dataArray: any = [['Número de Prueba', 'Mano Inicial', 'Mulligan', 'Develar']]
+    if (this.datosProcesados.length > 0) {
+      //for (let i = 0; i < this.datosProcesados.length; i++) {
+    const contadores = this.datosProcesados[0].conteos;
+
+        for (let j:number = 0; j < 10; j++) {
+          dataArray.push([
+            j + 1,
+            contadores.puro[j] ? 1 : 0,
+            contadores.postPrimeraManoYMulligan[j] ? 1 : 0,
+            contadores.develado[j] ? 1 : 0
+          ]);
+        //}
+      };
+    }else{
+      dataArray.push([0,0,0,0])
+    }
+
+    const data = google.visualization.arrayToDataTable(dataArray);
+
+    const options = { title: 'Cantidad de Robos por Prueba', curveType: 'none', legend: { position: 'bottom' } };
+
+    const chart = new google.visualization.LineChart(document.getElementById('linechartbools'));
+    chart.draw(data, options);
+  }
 
   drawLineChart(): void {
-    const data = google.visualization.arrayToDataTable([
-      ['Time', 'Value'],
-      ['2024-01', 1000],
-      ['2024-02', 1170],
-      ['2024-03', 660],
-      ['2024-04', 1030]
-    ]);
+    const dataArray: any = [['Número de Prueba', 'Puro', 'Post Primera Mano y Mulligan']]
+    if (this.datosProcesados.length > 0) {
+      //for (let i = 0; i < this.datosProcesados.length; i++) {
+    const contadores = this.datosProcesados[0].conteos;
 
-    const options = { title: 'Tendencia Mensual', curveType: 'function', legend: { position: 'bottom' } };
+
+        for (let j:number = 0; j < 10; j++) {
+          dataArray.push([
+            j + 1,
+            contadores.puro[j],
+            contadores.postPrimeraManoYMulligan[j],
+          ])
+        //}
+      };
+    }else{
+      dataArray.push([0,0,0])
+    }
+
+    const data = google.visualization.arrayToDataTable(dataArray);
+
+    const options = { title: 'Cantidad de Robos por Prueba', curveType: 'none', legend: { position: 'bottom' } };
 
     const chart = new google.visualization.LineChart(document.getElementById('linechart'));
     chart.draw(data, options);
