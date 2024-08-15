@@ -109,8 +109,8 @@ export class GraficosComponent implements OnInit {
         for (let j:number = 0; j < 10; j++) {
           dataArray.push([
             j + 1,
-            contadores.puro[j] ? 1 : 0,
-            contadores.postPrimeraManoYMulligan[j] ? 1 : 0,
+            contadores.primeraMano[j] ? 1 : 0,
+            contadores.mulligan[j] ? 1 : 0,
             contadores.develado[j] ? 1 : 0
           ]);
         //}

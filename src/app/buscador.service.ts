@@ -85,8 +85,10 @@ export class BuscadorService {
   }
 
   buscarEn(mazo:Mazo<CartaHs>, buscar:CartaHs | null): boolean {
-    if (buscar) {
-      return mazo.cartas.some(carta => carta !== undefined && carta.id === buscar.id);
+    if (buscar) { 
+      let resultado = mazo.cartas.some(carta => carta !== undefined && carta.id === buscar.id)
+      console.log(resultado);
+      return resultado;
     } else {
       return false;
     }
@@ -102,14 +104,12 @@ export class BuscadorService {
     let resultadosMulligan:boolean[] = []
     for (let i = 0; i < intentos; i++) {
       this.servicio.mezclador(mazo.cartas)
-      let mano = this.drawhand(mazo)[0]
-      let mazoSinDrawHand = this.drawhand(mazo)[1]
-      if (this.buscarEn(mano, buscar)){
+      let manoYmull = this.drawhand(mazo)
+      if (this.buscarEn(manoYmull[0], buscar)){
         resultadosPrimeraMano.push(true)
       } else {
         resultadosPrimeraMano.push(false)
-        let mano = this.drawhand(mazoSinDrawHand)[0]
-        resultadosMulligan.push(this.buscarEn(mano, buscar))
+        resultadosMulligan.push(this.buscarEn(manoYmull[1], buscar))
       }
     }
     let contadorPrimeraMano:number = resultadosPrimeraMano.filter(value => value).length;
@@ -127,9 +127,10 @@ export class BuscadorService {
 
   develarXTipo(mazo:Mazo<CartaHs>, tipo: string | null):Mazo<CartaHs>{
     let develadas = new Mazo<CartaHs>([]);
+    let mazoABuscar = mazo.clone();
     if (tipo){
-    while (develadas.cartas.length < 3 && mazo.cartas.length > 0) {
-      let carta:CartaHs = mazo.cartas.shift()!;
+    while (develadas.cartas.length < 3 && mazoABuscar.cartas.length > 0) {
+      let carta:CartaHs = mazoABuscar.cartas.shift()!;
       if (carta.tipo === tipo){
         develadas.cartas.push(carta);
       }
