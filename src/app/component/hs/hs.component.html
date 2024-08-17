@@ -8,26 +8,26 @@
             <table>
                 <thead>
                     <tr>
-                        <th>COM</th>
-                        <th>PAR</th>
-                        <th>RAR</th>
-                        <th>PAR</th>
-                        <th>EPI</th>
-                        <th>PAR</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">COM</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">PAR</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">RAR</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">PAR</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">EPI</th>
+                        <th *ngIf="arquetipo !== 'Heroe'">PAR</th>
                         <th>LEG</th>
                         <th>TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input class= "ingreso" formControlName="comunes" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="comPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="raras" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="rarPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="epicas" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="epiPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="legendarias" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
-                        <td><input class= "ingreso" formControlName="totales" type="number" placeholder="0" readOnly></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="comunes" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="comPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="raras" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="rarPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="epicas" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td *ngIf="arquetipo !== 'Heroe'"><input class="ingreso" formControlName="epiPAR" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td><input class="ingreso" formControlName="legendarias" type="number" placeholder="0" (input)="calcuTotalesParciales(i)"></td>
+                        <td><input class="ingreso" formControlName="totales" type="number" placeholder="0" readOnly></td>
                     </tr>
                 </tbody>
             </table>

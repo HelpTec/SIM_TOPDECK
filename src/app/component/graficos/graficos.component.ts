@@ -121,14 +121,19 @@ export class GraficosComponent implements OnInit {
 
     const data = google.visualization.arrayToDataTable(dataArray);
 
-    const options = { title: 'Cantidad de Robos por Prueba', curveType: 'none', legend: { position: 'bottom' } };
+    const options = { title: ('Exito al buscar un '+ 
+      this.datosProcesados[0].carta.tipo+
+    '/'+
+    this.datosProcesados[1].carta.rareza+
+    ' mediante develar o en primera mano/mulligan')
+      , curveType: 'none', legend: { position: 'bottom' } };
 
     const chart = new google.visualization.LineChart(document.getElementById('linechartbools'));
     chart.draw(data, options);
   }
 
   drawLineChart(): void {
-    const dataArray: any = [['Número de Prueba', 'Puro', 'Post Primera Mano y Mulligan']]
+    const dataArray: any = [['Número de Prueba', 'A mazo lleno, un robo por turno', 'A mazo pasado primera mano/mulligan']]
     if (this.datosProcesados.length > 0) {
       //for (let i = 0; i < this.datosProcesados.length; i++) {
     const contadores = this.datosProcesados[0].conteos;
@@ -148,7 +153,12 @@ export class GraficosComponent implements OnInit {
 
     const data = google.visualization.arrayToDataTable(dataArray);
 
-    const options = { title: 'Cantidad de Robos por Prueba', curveType: 'none', legend: { position: 'bottom' } };
+    const options = { 
+      title: ('Cantidad de robos hasta sacar un ' + 
+        this.datosProcesados[0].carta.tipo +
+        '/' +
+        this.datosProcesados[0].carta.rareza+' especifico elegido al azar'), 
+      curveType: 'none', legend: { position: 'bottom' } };
 
     const chart = new google.visualization.LineChart(document.getElementById('linechart'));
     chart.draw(data, options);
